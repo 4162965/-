@@ -3,247 +3,302 @@
 <head>
 <meta charset="UTF-8">
 <title>搜图工具</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-  /* 全局美化 */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: linear-gradient(135deg, #e8edf2 0%, #dfe6ee 100%);
+    /* 自定义壁纸优先级更高：取消下面注释并替换URL，会覆盖渐变背景 */
+    /* background: url("https://替换成你的壁纸链接.jpg") no-repeat center center; */
+    /* background-size: cover; */
+    /* 梦幻渐变背景（上一版UI） */
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fcb69f, #ffecd2, #a1c4fd, #c2e9fb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    padding: 15px;
+    /* 壁纸/渐变遮罩（让内容更清晰） */
+    position: relative;
   }
-
-  /* 卡片美化 磨砂质感 */
-  .container {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    border-radius: 36px;
-    padding: 55px 45px;
+  
+  /* 渐变流动动画 */
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* 遮罩层（调整0.85可改变透明度） */
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 520px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: -1;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.8);
   }
 
-  /* 标题美化 */
   h2 {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 800;
-    color: #222;
-    margin: 0 0 10px 0;
-    letter-spacing: 0.5px;
-  }
-  .subtitle {
-    font-size: 15px;
-    color: #808892;
-    margin-bottom: 45px;
+    color: #2d3748;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
   }
 
-  /* 输入框容器 */
+  .subtitle {
+    font-size: 14px;
+    color: #718096;
+    margin-bottom: 28px;
+  }
+
   .input-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 15px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.9);
+    color: #2d3748;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+
+  input:focus, select:focus {
+    border-color: #a1c4fd;
+    box-shadow: 0 0 0 3px rgba(161,196,253,0.25);
+  }
+
+  #keyword {
+    padding-right: 90px;
+  }
+
+  .btn-translate {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0 15px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-translate:hover {
+    opacity: 0.9;
+    transform: scale(0.96);
+  }
+
+  .select-wrapper {
     position: relative;
     margin-bottom: 18px;
   }
 
-  /* 输入框、下拉框统一美化 */
-  input[type="text"], select {
-    width: 100%;
-    padding: 20px 26px;
-    font-size: 15px;
-    border-radius: 60px;
-    border: 1px solid #e2e8f0;
-    background: #ffffff;
-    color: #222;
-    outline: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.03);
-  }
-  input[type="text"]:focus, select:focus {
-    border-color: #b8c8dc;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  }
-  
-  #keyword {
-    padding-right: 95px;
-  }
-
-  /* 翻译按钮美化 */
-  .btn-translate {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    bottom: 10px;
-    background: #f1f5f9;
-    border: none;
-    border-radius: 50px;
-    padding: 0 18px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-  .btn-translate:hover {
-    background: #e2e8f0;
-    color: #1e293b;
-  }
-  .btn-translate:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
-
-  /* 下拉选择框美化 */
-  .select-wrapper {
-    position: relative;
-    margin-bottom: 20px;
-  }
   .select-wrapper::after {
     content: '▼';
-    font-size: 11px;
-    color: #a0aec0;
+    font-size: 10px;
+    color: #718096;
     position: absolute;
-    right: 26px;
-    top: 42%;
+    right: 22px;
+    top: 40%;
     pointer-events: none;
   }
+
   select {
     appearance: none;
     -webkit-appearance: none;
-    cursor: pointer;
   }
 
-  /* 按钮组 */
+  /* 按钮组 - 彩色渐变按键 */
   .button-group {
     display: flex;
-    gap: 15px;
-    margin-bottom: 18px;
+    gap: 12px;
+    margin-bottom: 20px;
   }
+
   button.action-btn {
     flex: 1;
-    padding: 20px 24px;
+    padding: 18px;
     font-size: 15px;
     font-weight: 600;
-    border-radius: 60px;
+    border-radius: 30px;
     border: none;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s;
+    color: white;
   }
+
+  /* 搜索按钮 - 主渐变 */
   .btn-primary {
-    background: linear-gradient(135deg, #222 0%, #333 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #ff9a9e, #fcb69f);
+    box-shadow: 0 4px 15px rgba(255,154,158,0.3);
   }
-  .btn-primary:hover {
-    opacity: 0.92;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-  }
+
+  /* 多站搜索按钮 - 辅助渐变 */
   .btn-secondary {
-    background: #ffffff;
-    color: #222;
-    border: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    box-shadow: 0 4px 15px rgba(161,196,253,0.3);
   }
-  .btn-secondary:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+
+  .action-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   }
-  
+
+  /* 多站勾选区域 - 移到按钮下方 */
+  .check-wrap {
+    background: rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 15px;
+    text-align: left;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .check-title {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .check-item {
+    font-size: 12px;
+    color: #4a5568;
+    padding: 4px 8px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .check-item input {
+    width: 14px;
+    height: 14px;
+  }
+
   .btn-text {
     background: transparent;
     color: #718096;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 10px;
-    text-decoration: none;
-    width: auto;
     border: none;
+    font-size: 13px;
     cursor: pointer;
-    margin-bottom: 22px;
-    transition: color 0.2s;
-  }
-  .btn-text:hover {
-    color: #222;
+    margin-bottom: 20px;
+    text-decoration: underline;
   }
 
-  /* 结果链接框 */
   #result {
+    width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid #dce3ec;
-    border-radius: 0;
-    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
     text-align: center;
-    font-size: 13px;
-    color: #8892a0;
-    margin-bottom: 32px;
-    box-shadow: none;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 25px;
   }
 
-  /* 历史记录区域 */
+  /* 历史记录 */
   .history-section {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
     text-align: left;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 26px;
   }
+
   .history-title {
-    font-size: 13px;
-    color: #718096;
-    margin-bottom: 18px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 12px;
   }
+
   .clear-btn {
     background: none;
-    color: #8892a0;
     border: none;
-    padding: 0;
-    margin: 0;
-    width: auto;
+    color: #999;
     font-size: 12px;
     cursor: pointer;
-    text-decoration: none;
-    flex: none;
-    font-weight: normal;
-    transition: color 0.2s;
   }
-  .clear-btn:hover {
-    color: #222;
-  }
+
   .history-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
   }
+
   .history-tag {
-    background: #ffffff;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
     color: #4a5568;
-    padding: 9px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #eee;
     cursor: pointer;
-    transition: all 0.25s;
   }
-  .history-tag:hover {
-    border-color: #a0aec0;
-    background: #f8fafc;
-  }
+
   .empty-history {
-    color: #b8c2cc;
-    font-size: 13px;
+    font-size: 12px;
+    color: #bbb;
+  }
+
+  /* 移动端适配 */
+  @media (max-width: 400px) {
+    .container {
+      padding: 25px 20px;
+      border-radius: 25px;
+    }
+    h2 {
+      font-size: 26px;
+    }
+    .button-group {
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 </style>
 </head>
@@ -251,214 +306,128 @@
 
 <div class="container">
   <h2>搜图工具</h2>
-  <div class="subtitle">一键多平台图片灵感搜索工具</div>
+  <div class="subtitle">一键多平台图片灵感搜索</div>
 
   <div class="input-wrapper">
-    <input type="text" id="keyword" placeholder="输入关键词，例如：景观设计 / 风景">
-    <button class="btn-translate" onclick="translateKeyword()" id="translateBtn">中译英</button>
+    <input type="text" id="keyword" placeholder="输入关键词，例如：风景 / 插画">
+    <button class="btn-translate" onclick="translateKeyword()">中译英</button>
   </div>
-  
+
   <div class="select-wrapper">
     <select id="engine">
-      <option value="google">Google图片（推荐）</option>
-      <option value="pinterest">Pinterest（灵感）</option>
-      <option value="bing">必应 (Bing)</option>
-      <option value="baidu">百度 (Baidu)</option>
-      <option value="sogou">搜狗 (Sogou)</option>
-      <option value="huaban">花瓣 (Huaban)</option>
-      <option value="quark">夸克 (Quark)</option>
-      <option value="wechat">微信 (WeChat)</option>
-      <option value="zcool">站酷 (ZCOOL)</option>
+      <option value="google">Google图片</option>
+      <option value="pinterest">Pinterest</option>
+      <option value="bing">必应</option>
+      <option value="baidu">百度</option>
+      <option value="sogou">搜狗</option>
+      <option value="huaban">花瓣</option>
+      <option value="quark">夸克</option>
+      <option value="zcool">站酷</option>
       <option value="pixabay">Pixabay</option>
-      <option value="miankoutupian">免扣图网</option>
       <option value="so360">360图片</option>
       <option value="unsplash">Unsplash</option>
       <option value="pexels">Pexels</option>
-      <option value="cc0">CC零图片网</option>
-      <option value="xiaohongshu">小红书 (Xiaohongshu)</option>
+      <option value="xiaohongshu">小红书</option>
     </select>
   </div>
 
+  <!-- 按钮组（彩色渐变） -->
   <div class="button-group">
     <button class="action-btn btn-primary" onclick="search()">搜索</button>
     <button class="action-btn btn-secondary" onclick="searchAll()">多站点搜索</button>
   </div>
-  
-  <button class="btn-text" onclick="copyLink()">复制直达链接</button>
 
-  <input type="text" id="result" placeholder="生成的搜索链接会显示在这里..." readonly>
+  <!-- 多站勾选区域（移到按钮下方） -->
+  <div class="check-wrap">
+    <div class="check-title">选择多站点搜索打开的网站</div>
+    <div class="check-list" id="checkList"></div>
+  </div>
+
+  <button class="btn-text" onclick="copyLink()">复制直达链接</button>
+  <input type="text" id="result" readonly placeholder="搜索链接将显示在这里">
 
   <div class="history-section">
     <div class="history-title">
       <span>搜索记录</span>
-      <button class="clear-btn" onclick="clearHistory()">清空记录</button>
+      <button class="clear-btn" onclick="clearHistory()">清空</button>
     </div>
-    <div id="history-tags" class="history-tags">
-    </div>
+    <div id="history-tags" class="history-tags"></div>
   </div>
 </div>
 
 <script>
 const engines = {
-  google: "https://www.google.com/search?tbm=isch&q=（关键词）",
-  pinterest: "https://www.pinterest.com/search/pins/?q=（关键词）",
-  xiaohongshu: "https://www.xiaohongshu.com/search_result?keyword=（关键词）",
-  bing: "https://www.bing.com/images/search?q=（关键词）",
-  baidu: "https://image.baidu.com/search/index?tn=baiduimage&word=（关键词）",
-  sogou: "https://pic.sogou.com/pics?query=（关键词）",
-  huaban: "https://huaban.com/search?q=（关键词）",
-  quark: "https://quark.sm.cn/s?q=（关键词）",
-  wechat: "https://weixin.sogou.com/weixin?type=2&query=（关键词）",
-  zcool: "https://www.zcool.com.cn/search/content?word=（关键词）",
-  pixabay: "https://pixabay.com/zh/images/search/（关键词）/",
-  miankoutupian: "https://miankoutupian.com/?s=（关键词）",
-  so360: "https://image.so.com/i?q=（关键词）",
-  unsplash: "https://unsplash.com/s/photos/（关键词）",
-  pexels: "https://www.pexels.com/zh-cn/search/（关键词）/",
-  cc0: "https://cc0.cn/?s=（关键词）"
+  google:"Google图片",pinterest:"Pinterest",xiaohongshu:"小红书",bing:"必应",
+  baidu:"百度",sogou:"搜狗",huaban:"花瓣",quark:"夸克",zcool:"站酷",
+  pixabay:"Pixabay",so360:"360图片",unsplash:"Unsplash",pexels:"Pexels"
+};
+const engineUrl = {
+  google:"https://www.google.com/search?tbm=isch&q=（关键词）",
+  pinterest:"https://www.pinterest.com/search/pins/?q=（关键词）",
+  xiaohongshu:"https://www.xiaohongshu.com/search_result?keyword=（关键词）",
+  bing:"https://www.bing.com/images/search?q=（关键词）",
+  baidu:"https://image.baidu.com/search/index?tn=baiduimage&word=（关键词）",
+  sogou:"https://pic.sogou.com/pics?query=（关键词）",
+  huaban:"https://huaban.com/search?q=（关键词）",
+  quark:"https://quark.sm.cn/s?q=（关键词）",
+  zcool:"https://www.zcool.com.cn/search/content?word=（关键词）",
+  pixabay:"https://pixabay.com/zh/images/search/（关键词）/",
+  so360:"https://image.so.com/i?q=（关键词）",
+  unsplash:"https://unsplash.com/s/photos/（关键词）",
+  pexels:"https://www.pexels.com/zh-cn/search/（关键词）/"
 };
 
-// 翻译
-async function translateKeyword() {
-  const inputEl = document.getElementById("keyword");
-  const btnEl = document.getElementById("translateBtn");
-  const text = inputEl.value.trim();
+// 勾选状态记忆
+function saveChecked(a){localStorage.setItem("s",JSON.stringify(a))}
+function getChecked(){let d=localStorage.getItem("s");return d?JSON.parse(d):[]}
 
-  if (!text) {
-    alert("请先输入需要翻译的中文！");
-    return;
-  }
-
-  const originalText = btnEl.innerText;
-  btnEl.innerText = "翻译中...";
-  btnEl.disabled = true;
-
-  try {
-    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=zh|en`);
-    const data = await response.json();
-    
-    if (data && data.responseData && data.responseData.translatedText) {
-      inputEl.value = data.responseData.translatedText;
-    } else {
-      alert("翻译服务返回异常，请重试。");
-    }
-  } catch (error) {
-    console.error("翻译出错:", error);
-    alert("网络或翻译服务暂时不可用。");
-  } finally {
-    btnEl.innerText = originalText;
-    btnEl.disabled = false;
-  }
-}
-
-// 历史记录
-function getHistory() {
-  let history = localStorage.getItem("searchHistory");
-  return history ? JSON.parse(history) : [];
-}
-
-function saveHistory(keyword) {
-  if (!keyword) return;
-  let history = getHistory();
-  history = history.filter(item => item !== keyword);
-  history.unshift(keyword);
-  if (history.length > 10) {
-    history.pop();
-  }
-  localStorage.setItem("searchHistory", JSON.stringify(history));
-  renderHistory();
-}
-
-function renderHistory() {
-  let history = getHistory();
-  let container = document.getElementById("history-tags");
-  container.innerHTML = "";
-  
-  if (history.length === 0) {
-    container.innerHTML = "<span class='empty-history'>暂无搜索记录</span>";
-    return;
-  }
-  
-  history.forEach(keyword => {
-    let span = document.createElement("span");
-    span.className = "history-tag";
-    span.textContent = keyword;
-    span.onclick = function() {
-      document.getElementById("keyword").value = keyword;
+function renderCheck(){
+  let list=document.getElementById("checkList");
+  list.innerHTML="";
+  let c=getChecked();
+  Object.keys(engines).forEach(k=>{
+    let l=document.createElement("label");
+    l.className="check-item";
+    l.innerHTML=`<input type="checkbox" value="${k}"> ${engines[k]}`;
+    let i=l.querySelector("input");
+    i.checked=c.includes(k);
+    i.onchange=()=>{
+      let all=Array.from(document.querySelectorAll(".check-item input:checked")).map(e=>e.value);
+      saveChecked(all);
     };
-    container.appendChild(span);
-  });
-}
-
-function clearHistory() {
-  localStorage.removeItem("searchHistory");
-  renderHistory();
-}
-
-// 页面加载 + 回车搜索
-window.onload = function(){
-  renderHistory();
-  
-  document.getElementById('keyword').addEventListener('keydown', function(e){
-    if(e.key === 'Enter') search();
+    list.appendChild(l);
   })
-};
-
-// 构建链接
-function buildUrl(engineKey) {
-  let keyword = document.getElementById("keyword").value.trim();
-  if (!keyword) {
-    alert("请输入关键词");
-    return "";
-  }
-  return engines[engineKey].replace("（关键词）", encodeURIComponent(keyword));
 }
 
-// 单站搜索
-function search() {
-  let keyword = document.getElementById("keyword").value.trim();
-  let engine = document.getElementById("engine").value;
-  let url = buildUrl(engine);
-  if (url) {
-    saveHistory(keyword); 
-    document.getElementById("result").value = url;
-    window.open(url);
-  }
+// 翻译功能
+async function translateKeyword(){
+  let v=document.getElementById("keyword").value.trim();
+  if(!v){alert("请输入内容");return}
+  let b=document.querySelector(".btn-translate");
+  let t=b.innerText;
+  b.innerText="翻译中…";b.disabled=1;
+  try{
+    let r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(v)}&langpair=zh|en`);
+    let d=await r.json();
+    if(d?.responseData?.translatedText)document.getElementById("keyword").value=d.responseData.translatedText;
+  }catch(e){alert("翻译失败")}
+  b.innerText=t;b.disabled=0;
 }
 
-// 多站点搜索：一次性打开全部网站（加了提示和延迟）
-function searchAll() {
-  let keyword = document.getElementById("keyword").value.trim();
-  if (!keyword) {
-    alert("请输入关键词");
-    return;
-  }
-  
-  saveHistory(keyword); 
+// 历史记录功能
+function getHistory(){let h=localStorage.getItem("h");return h?JSON.parse(h):[]}
+function saveHistory(k){if(!k)return;let a=getHistory();a=a.filter(i=>i!==k);a.unshift(k);if(a.length>10)a.pop();localStorage.setItem("h",JSON.stringify(a));renderHistory()}
+function renderHistory(){let a=getHistory();let b=document.getElementById("history-tags");b.innerHTML="";if(a.length===0){b.innerHTML='<span class="empty-history">暂无记录</span>';return}a.forEach(k=>{let s=document.createElement("span");s.className="history-tag";s.innerText=k;s.onclick=()=>document.getElementById("keyword").value=k;b.appendChild(s)})}
+function clearHistory(){localStorage.removeItem("h");renderHistory()}
 
-  alert("即将打开所有站点的搜索页面，请允许浏览器弹出多个标签页！");
+// 搜索核心逻辑
+function buildUrl(k){let w=document.getElementById("keyword").value.trim();return w?engineUrl[k].replace("（关键词）",encodeURIComponent(w)):""}
+function search(){let u=buildUrl(document.getElementById("engine").value);if(u){saveHistory(document.getElementById("keyword").value);document.getElementById("result").value=u;window.open(u)}}
+function searchAll(){let w=document.getElementById("keyword").value.trim();if(!w){alert("请输入关键词");return}let c=getChecked();if(c.length===0){alert("请勾选网站");return}saveHistory(w);c.forEach((e,i)=>{setTimeout(()=>{let u=buildUrl(e);if(u)window.open(u)},i*200)})}
+function copyLink(){let u=buildUrl(document.getElementById("engine").value);if(u){document.getElementById("result").value=u;navigator.clipboard.writeText(u);alert("已复制")}}
 
-  // 延迟逐个打开，避免被一次性拦截
-  const allEngines = Object.keys(engines);
-  allEngines.forEach((engine, index) => {
-    setTimeout(() => {
-      let url = buildUrl(engine);
-      if(url) window.open(url);
-    }, index * 300); // 每个站点间隔300ms打开
-  });
-}
-
-// 复制链接
-function copyLink() {
-  let engine = document.getElementById("engine").value;
-  let url = buildUrl(engine);
-  if (url) {
-    document.getElementById("result").value = url;
-    navigator.clipboard.writeText(url);
-    alert("已复制链接至剪贴板！");
-  }
-}
-
+// 页面初始化
+window.onload=()=>{renderHistory();renderCheck();document.getElementById("keyword").addEventListener("keydown",e=>e.key==="Enter"&&search())}
 </script>
 </body>
 </html>
