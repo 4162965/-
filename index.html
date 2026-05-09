@@ -14,7 +14,7 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: linear-gradient(-45deg, 
+    background: linear-gradient(-45deg,
       #ff9a9e, #fad0c4, #fcb69f,
       #a1c4fd, #c2e9fb, #84fab0,
       #80d0c7, #a8edea, #f093fb, #f5576c
@@ -28,7 +28,7 @@
     padding: 15px;
     position: relative;
   }
-  
+
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     25% { background-position: 25% 75%; }
@@ -36,7 +36,7 @@
     75% { background-position: 75% 25%; }
     100% { background-position: 0% 50%; }
   }
-  
+
   body::before {
     content: "";
     position: absolute;
@@ -98,7 +98,7 @@
 
   input:focus, select:focus {
     border-color: transparent;
-    box-shadow: 
+    box-shadow:
       0 0 0 3px rgba(161,196,253,0.25),
       0 0 0 1px #a1c4fd;
   }
@@ -159,11 +159,10 @@
     margin-bottom: 20px;
   }
 
-  /* 按钮整体加大、字体加大 */
   .action-btn {
     flex: 1;
     padding: 16px 20px;
-    font-size: 16px; /* 字体加大 */
+    font-size: 16px;
     font-weight: 600;
     border-radius: 30px;
     border: none;
@@ -173,13 +172,11 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
-  /* 搜索按钮 → 更淡的浅蓝色 */
   .btn-primary {
     background: linear-gradient(135deg, #93c5fd, #bfdbfe, #dbeafe);
     box-shadow: 0 4px 18px rgba(147, 197, 253, 0.35);
   }
 
-  /* 多站搜索按钮 */
   .btn-secondary {
     background: linear-gradient(135deg, #a1c4fd, #c2e9fb, #84fab0, #80d0c7);
     box-shadow: 0 4px 18px rgba(161,196,253,0.35);
@@ -414,10 +411,10 @@ const engines = {
   pixabay:"Pixabay",so360:"360图片",unsplash:"Unsplash",pexels:"Pexels",
   zhiwutuku:"植物图库"
 };
+// 已修复：小红书免登录链接
 const engineUrl = {
   google:"https://www.google.com/search?tbm=isch&q=（关键词）",
   pinterest:"https://www.pinterest.com/search/pins/?q=（关键词）",
-  xiaohongshu:"https://www.xiaohongshu.com/search_result?keyword=（关键词）",
   bing:"https://www.bing.com/images/search?q=（关键词）",
   baidu:"https://image.baidu.com/search/index?tn=baiduimage&word=（关键词）",
   sogou:"https://pic.sogou.com/pics?query=（关键词）",
@@ -428,6 +425,7 @@ const engineUrl = {
   so360:"https://image.so.com/i?q=（关键词）",
   unsplash:"https://unsplash.com/s/photos/（关键词）",
   pexels:"https://www.pexels.com/zh-cn/search/（关键词）/",
+  xiaohongshu:"https://www.xiaohongshu.com/s?keyword=（关键词）",
   zhiwutuku:"https://tu.lfhj.com.cn/index.php?mod=search#id=1&keyword=（关键词）"
 };
 
