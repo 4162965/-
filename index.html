@@ -426,7 +426,7 @@ function search() {
   }
 }
 
-// 多站点搜索：一次性打开全部网站
+// 多站点搜索：一次性打开全部网站（加了提示和延迟）
 function searchAll() {
   let keyword = document.getElementById("keyword").value.trim();
   if (!keyword) {
@@ -436,9 +436,15 @@ function searchAll() {
   
   saveHistory(keyword); 
 
-  Object.keys(engines).forEach(engine => {
-    let url = buildUrl(engine);
-    if(url) window.open(url);
+  alert("即将打开所有站点的搜索页面，请允许浏览器弹出多个标签页！");
+
+  // 延迟逐个打开，避免被一次性拦截
+  const allEngines = Object.keys(engines);
+  allEngines.forEach((engine, index) => {
+    setTimeout(() => {
+      let url = buildUrl(engine);
+      if(url) window.open(url);
+    }, index * 300); // 每个站点间隔300ms打开
   });
 }
 
