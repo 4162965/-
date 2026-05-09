@@ -5,112 +5,114 @@
 <title>搜图工具</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  /* 基础与背景配置 */
+  /* 全局美化 */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #e5e5e5; 
+    background: linear-gradient(135deg, #e8edf2 0%, #dfe6ee 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
     padding: 20px;
-    box-sizing: border-box;
   }
 
-  /* 核心卡片容器 */
+  /* 卡片美化 磨砂质感 */
   .container {
-    background: #f4f5f6; 
-    border-radius: 32px;
-    padding: 50px 40px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 36px;
+    padding: 55px 45px;
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    max-width: 520px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
     text-align: center;
-    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.6);
   }
 
-  /* 标题排版 */
+  /* 标题美化 */
   h2 {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 800;
-    color: #111;
-    margin: 0 0 8px 0;
-    letter-spacing: -1px;
+    color: #222;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.5px;
   }
   .subtitle {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 40px;
+    font-size: 15px;
+    color: #808892;
+    margin-bottom: 45px;
   }
 
-  /* 带内嵌按钮的输入框容器 */
+  /* 输入框容器 */
   .input-wrapper {
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
-  /* 表单元素公用样式 */
+  /* 输入框、下拉框统一美化 */
   input[type="text"], select {
     width: 100%;
-    padding: 18px 24px;
+    padding: 20px 26px;
     font-size: 15px;
-    border-radius: 50px; 
-    border: 1px solid transparent;
+    border-radius: 60px;
+    border: 1px solid #e2e8f0;
     background: #ffffff;
-    color: #111;
-    box-sizing: border-box;
+    color: #222;
     outline: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.03);
   }
   input[type="text"]:focus, select:focus {
-    border-color: #ccc;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: #b8c8dc;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
   }
   
-  /* 给翻译按钮留出空间 */
   #keyword {
-    padding-right: 90px;
+    padding-right: 95px;
   }
 
-  /* 内嵌翻译按钮 */
+  /* 翻译按钮美化 */
   .btn-translate {
     position: absolute;
-    right: 8px;
-    top: 8px;
-    bottom: 8px;
-    background: #f0f0f0;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    background: #f1f5f9;
     border: none;
-    border-radius: 40px;
-    padding: 0 16px;
+    border-radius: 50px;
+    padding: 0 18px;
     font-size: 13px;
     font-weight: 600;
-    color: #555;
+    color: #475569;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
   }
   .btn-translate:hover {
-    background: #e0e0e0;
-    color: #111;
+    background: #e2e8f0;
+    color: #1e293b;
   }
   .btn-translate:disabled {
-    opacity: 0.5;
+    opacity: 0.55;
     cursor: not-allowed;
   }
 
-  /* 下拉菜单定制 */
+  /* 下拉选择框美化 */
   .select-wrapper {
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   .select-wrapper::after {
     content: '▼';
-    font-size: 10px;
-    color: #999;
+    font-size: 11px;
+    color: #a0aec0;
     position: absolute;
-    right: 24px;
-    top: 40%;
+    right: 26px;
+    top: 42%;
     pointer-events: none;
   }
   select {
@@ -119,89 +121,93 @@
     cursor: pointer;
   }
 
-  /* 按钮区域 */
+  /* 按钮组 */
   .button-group {
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 15px;
+    margin-bottom: 18px;
   }
   button.action-btn {
     flex: 1;
-    padding: 18px 24px;
+    padding: 20px 24px;
     font-size: 15px;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 60px;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
   }
   .btn-primary {
-    background: #111;
+    background: linear-gradient(135deg, #222 0%, #333 100%);
     color: #fff;
   }
   .btn-primary:hover {
-    background: #333;
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
   }
   .btn-secondary {
-    background: #fff;
-    color: #111;
-    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    color: #222;
+    border: 1px solid #e2e8f0;
   }
   .btn-secondary:hover {
-    background: #f9f9f9;
-    border-color: #ccc;
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
   }
   
   .btn-text {
     background: transparent;
-    color: #777;
+    color: #718096;
     font-weight: 500;
     font-size: 14px;
     padding: 10px;
-    text-decoration: underline;
+    text-decoration: none;
     width: auto;
     border: none;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    transition: color 0.2s;
   }
   .btn-text:hover {
-    color: #111;
+    color: #222;
   }
 
-  /* 生成链接只读框 */
+  /* 结果链接框 */
   #result {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #dce3ec;
     border-radius: 0;
-    padding: 12px 0;
+    padding: 14px 0;
     text-align: center;
     font-size: 13px;
-    color: #999;
-    margin-bottom: 30px;
+    color: #8892a0;
+    margin-bottom: 32px;
     box-shadow: none;
   }
 
-  /* 搜索历史记录区域 */
+  /* 历史记录区域 */
   .history-section {
     text-align: left;
-    border-top: 1px solid #e5e5e5;
-    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 26px;
   }
   .history-title {
-    font-size: 12px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
+    letter-spacing: 0.5px;
   }
   .clear-btn {
     background: none;
-    color: #999;
+    color: #8892a0;
     border: none;
     padding: 0;
     margin: 0;
@@ -211,32 +217,32 @@
     text-decoration: none;
     flex: none;
     font-weight: normal;
+    transition: color 0.2s;
   }
   .clear-btn:hover {
-    color: #111;
-    text-decoration: underline;
+    color: #222;
   }
   .history-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
   }
   .history-tag {
     background: #ffffff;
-    color: #444;
-    padding: 8px 16px;
+    color: #4a5568;
+    padding: 9px 18px;
     border-radius: 50px;
     font-size: 13px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e2e8f0;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
   }
   .history-tag:hover {
-    border-color: #aaa;
-    background: #fafafa;
+    border-color: #a0aec0;
+    background: #f8fafc;
   }
   .empty-history {
-    color: #bbb;
+    color: #b8c2cc;
     font-size: 13px;
   }
 </style>
@@ -245,7 +251,7 @@
 
 <div class="container">
   <h2>搜图工具</h2>
-  <div class="subtitle">Combine and track ideas for your mind goes.</div>
+  <div class="subtitle">一键多平台图片灵感搜索工具</div>
 
   <div class="input-wrapper">
     <input type="text" id="keyword" placeholder="输入关键词，例如：景观设计 / 风景">
@@ -275,7 +281,7 @@
 
   <div class="button-group">
     <button class="action-btn btn-primary" onclick="search()">搜索</button>
-    <button class="action-btn btn-secondary" onclick="searchAll()">多站点检索</button>
+    <button class="action-btn btn-secondary" onclick="searchAll()">多站点搜索</button>
   </div>
   
   <button class="btn-text" onclick="copyLink()">复制直达链接</button>
@@ -284,7 +290,7 @@
 
   <div class="history-section">
     <div class="history-title">
-      <span>History</span>
+      <span>搜索记录</span>
       <button class="clear-btn" onclick="clearHistory()">清空记录</button>
     </div>
     <div id="history-tags" class="history-tags">
@@ -420,7 +426,7 @@ function search() {
   }
 }
 
-// 多站点检索（已修复！）
+// 多站点搜索：一次性打开全部网站
 function searchAll() {
   let keyword = document.getElementById("keyword").value.trim();
   if (!keyword) {
@@ -430,9 +436,7 @@ function searchAll() {
   
   saveHistory(keyword); 
 
-  // 同时打开：谷歌 + Pinterest + 小红书
-  let list = ["google", "pinterest", "xiaohongshu"];
-  list.forEach(engine => {
+  Object.keys(engines).forEach(engine => {
     let url = buildUrl(engine);
     if(url) window.open(url);
   });
