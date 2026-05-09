@@ -14,11 +14,10 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    /* 保留多彩渐变背景 */
     background: linear-gradient(-45deg, 
-      #ff9a9e, #fad0c4, #fcb69f, /* 粉橙系 */
-      #a1c4fd, #c2e9fb, #84fab0, /* 蓝青绿系 */
-      #80d0c7, #a8edea, #f093fb, #f5576c /* 紫粉系 */
+      #ff9a9e, #fad0c4, #fcb69f,
+      #a1c4fd, #c2e9fb, #84fab0,
+      #80d0c7, #a8edea, #f093fb, #f5576c
     );
     background-size: 600% 600%;
     animation: gradientBG 20s ease infinite;
@@ -61,11 +60,10 @@
     border: 1px solid rgba(255,255,255,0.9);
   }
 
-  /* 标题改为纯黑色 */
   h2 {
     font-size: 32px;
     font-weight: 800;
-    color: #000; /* 纯黑色 */
+    color: #000;
     margin-bottom: 8px;
     letter-spacing: 1px;
   }
@@ -102,7 +100,7 @@
     border-color: transparent;
     box-shadow: 
       0 0 0 3px rgba(161,196,253,0.25),
-      0 0 0 1px linear-gradient(135deg, #a1c4fd, #84fab0, #f093fb);
+      0 0 0 1px #a1c4fd;
   }
 
   #keyword {
@@ -155,7 +153,6 @@
     -webkit-appearance: none;
   }
 
-  /* 横向小按钮布局 */
   .button-group {
     display: flex;
     gap: 12px;
@@ -163,28 +160,27 @@
   }
 
   .action-btn {
-    flex: 1; /* 平分宽度 */
-    padding: 14px 18px; /* 小按键样式 */
-    font-size: 14px;
+    flex: 1;
+    padding: 16px 20px;
+    font-size: 16px;
     font-weight: 600;
     border-radius: 30px;
     border: none;
     cursor: pointer;
     transition: all 0.25s;
-    color: #000; /* 按钮文字黑色 */
+    color: #000;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
-  /* 搜索按钮 - 改为蓝色渐变（核心调整） */
+  /* 两个按钮现在完全一样的渐变色 */
   .btn-primary {
-    background: linear-gradient(135deg, #4facfe, #00f2fe, #60a5fa, #3b82f6);
-    box-shadow: 0 4px 18px rgba(79, 172, 254, 0.4);
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb, #84fab0, #80d0c7);
+    box-shadow: 0 4px 18px rgba(161,196,253,0.35);
   }
 
-  /* 多站搜索按钮 - 保留浅蓝绿渐变 */
   .btn-secondary {
     background: linear-gradient(135deg, #a1c4fd, #c2e9fb, #84fab0, #80d0c7);
-    box-shadow: 0 4px 18px rgba(161,196,253,0.4);
+    box-shadow: 0 4px 18px rgba(161,196,253,0.35);
   }
 
   .action-btn:hover {
@@ -194,7 +190,7 @@
   }
 
   .check-wrap {
-    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(248,250,252,0.8));
+    background: linear-gradient(135deg, rgba(255,255,250,0.6), rgba(248,250,252,0.8));
     border-radius: 20px;
     padding: 15px;
     text-align: left;
@@ -342,7 +338,6 @@
     color: #adb5bd;
   }
 
-  /* 移动端适配 */
   @media (max-width: 400px) {
     .container {
       padding: 25px 20px;
@@ -352,8 +347,8 @@
       font-size: 26px;
     }
     .action-btn {
-      padding: 12px 14px;
-      font-size: 13px;
+      padding: 14px 16px;
+      font-size: 15px;
     }
   }
 </style>
@@ -384,11 +379,10 @@
       <option value="unsplash">Unsplash</option>
       <option value="pexels">Pexels</option>
       <option value="xiaohongshu">小红书</option>
-      <option value="zhiwutuku">植物图库</option> <!-- 新增植物图库选项 -->
+      <option value="zhiwutuku">植物图库</option>
     </select>
   </div>
 
-  <!-- 横向按钮组布局 -->
   <div class="button-group">
     <button class="action-btn btn-primary" onclick="search()">搜索</button>
     <button class="action-btn btn-secondary" onclick="searchAll()">多站点搜索</button>
@@ -416,13 +410,12 @@ const engines = {
   google:"Google图片",pinterest:"Pinterest",xiaohongshu:"小红书",bing:"必应",
   baidu:"百度",sogou:"搜狗",huaban:"花瓣",quark:"夸克",zcool:"站酷",
   pixabay:"Pixabay",so360:"360图片",unsplash:"Unsplash",pexels:"Pexels",
-  zhiwutuku:"植物图库" // 新增植物图库映射
+  zhiwutuku:"植物图库"
 };
 const engineUrl = {
   google:"https://www.google.com/search?tbm=isch&q=（关键词）",
   pinterest:"https://www.pinterest.com/search/pins/?q=（关键词）",
-  // 小红书免登录链接
-  xiaohongshu:"https://www.xhslink.com/explore?keyword=（关键词）",
+  xiaohongshu:"https://www.xiaohongshu.com/search_result?keyword=（关键词）",
   bing:"https://www.bing.com/images/search?q=（关键词）",
   baidu:"https://image.baidu.com/search/index?tn=baiduimage&word=（关键词）",
   sogou:"https://pic.sogou.com/pics?query=（关键词）",
@@ -433,12 +426,11 @@ const engineUrl = {
   so360:"https://image.so.com/i?q=（关键词）",
   unsplash:"https://unsplash.com/s/photos/（关键词）",
   pexels:"https://www.pexels.com/zh-cn/search/（关键词）/",
-  zhiwutuku:"https://tu.lfhj.com.cn/?q=（关键词）" // 新增植物图库链接
+  zhiwutuku:"https://tu.lfhj.com.cn/index.php?mod=search#id=1&keyword=（关键词）"
 };
 
-// 勾选状态记忆
 function saveChecked(a){localStorage.setItem("s",JSON.stringify(a))}
-function getChecked(){let d=localStorage.getItem("s");return d?JSON.parse(d):[]}
+function getChecked(){let d=localStorage.getItem("s");return d?JSON.parse(d):Object.keys(engines)}
 
 function renderCheck(){
   let list=document.getElementById("checkList");
@@ -458,7 +450,6 @@ function renderCheck(){
   })
 }
 
-// 翻译功能
 async function translateKeyword(){
   let v=document.getElementById("keyword").value.trim();
   if(!v){alert("请输入内容");return}
@@ -466,27 +457,82 @@ async function translateKeyword(){
   let t=b.innerText;
   b.innerText="翻译中…";b.disabled=1;
   try{
-    let r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(v)}&langpair=zh|en`);
-    let d=await r.json();
-    if(d?.responseData?.translatedText)document.getElementById("keyword").value=d.responseData.translatedText;
-  }catch(e){alert("翻译失败")}
+    let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(v)}&langpair=zh|en`);
+    let data = await res.json();
+    if(data?.responseData?.translatedText){
+      document.getElementById("keyword").value = data.responseData.translatedText;
+    }
+  }catch(e){
+    alert("翻译服务暂时不可用");
+  }
   b.innerText=t;b.disabled=0;
 }
 
-// 历史记录功能
 function getHistory(){let h=localStorage.getItem("h");return h?JSON.parse(h):[]}
 function saveHistory(k){if(!k)return;let a=getHistory();a=a.filter(i=>i!==k);a.unshift(k);if(a.length>10)a.pop();localStorage.setItem("h",JSON.stringify(a));renderHistory()}
-function renderHistory(){let a=getHistory();let b=document.getElementById("history-tags");b.innerHTML="";if(a.length===0){b.innerHTML='<span class="empty-history">暂无记录</span>';return}a.forEach(k=>{let s=document.createElement("span");s.className="history-tag";s.innerText=k;s.onclick=()=>document.getElementById("keyword").value=k;b.appendChild(s)})}
+function renderHistory(){
+  let a=getHistory();
+  let b=document.getElementById("history-tags");
+  b.innerHTML="";
+  if(a.length===0){
+    b.innerHTML='<span class="empty-history">暂无记录</span>';
+    return;
+  }
+  a.forEach(k=>{
+    let s=document.createElement("span");
+    s.className="history-tag";
+    s.innerText=k;
+    s.onclick=()=>{document.getElementById("keyword").value=k};
+    b.appendChild(s);
+  })
+}
 function clearHistory(){localStorage.removeItem("h");renderHistory()}
 
-// 搜索核心逻辑
-function buildUrl(k){let w=document.getElementById("keyword").value.trim();return w?engineUrl[k].replace("（关键词）",encodeURIComponent(w)):""}
-function search(){let u=buildUrl(document.getElementById("engine").value);if(u){saveHistory(document.getElementById("keyword").value);document.getElementById("result").value=u;window.open(u)}}
-function searchAll(){let w=document.getElementById("keyword").value.trim();if(!w){alert("请输入关键词");return}let c=getChecked();if(c.length===0){alert("请勾选网站");return}saveHistory(w);c.forEach((e,i)=>{setTimeout(()=>{let u=buildUrl(e);if(u)window.open(u)},i*200)})}
-function copyLink(){let u=buildUrl(document.getElementById("engine").value);if(u){document.getElementById("result").value=u;navigator.clipboard.writeText(u);alert("已复制")}}
+function buildUrl(k){
+  let w=document.getElementById("keyword").value.trim();
+  return w?engineUrl[k].replace("（关键词）",encodeURIComponent(w)):"";
+}
+function search(){
+  let u=buildUrl(document.getElementById("engine").value);
+  if(u){
+    saveHistory(document.getElementById("keyword").value);
+    document.getElementById("result").value=u;
+    window.open(u,'_blank');
+  }
+}
+function searchAll(){
+  let w=document.getElementById("keyword").value.trim();
+  if(!w){alert("请输入关键词");return}
+  let c=getChecked();
+  if(c.length===0){alert("请勾选网站");return}
+  saveHistory(w);
+  c.forEach((e,i)=>{
+    setTimeout(()=>{
+      let u=buildUrl(e);
+      if(u) window.open(u,'_blank');
+    },i*200);
+  })
+}
+function copyLink(){
+  let u=buildUrl(document.getElementById("engine").value);
+  if(u){
+    document.getElementById("result").value=u;
+    navigator.clipboard.writeText(u).then(()=>alert("已复制")).catch(()=>alert("复制失败"));
+  }
+}
 
-// 页面初始化
-window.onload=()=>{renderHistory();renderCheck();document.getElementById("keyword").addEventListener("keydown",e=>e.key==="Enter"&&search())}
+window.onload=()=>{
+  renderHistory();
+  renderCheck();
+  const kw = document.getElementById("keyword");
+  kw.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      search();
+    }
+  });
+  kw.focus();
+}
 </script>
 </body>
 </html>
