@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>搜图工具</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  /* 基础与背景配置 */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #e5e5e5; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* 核心卡片容器 */
+  .container {
+    background: #f4f5f6; 
+    border-radius: 32px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  /* 标题排版 */
+  h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #111;
+    margin: 0 0 8px 0;
+    letter-spacing: -1px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 40px;
+  }
+
+  /* 带内嵌按钮的输入框容器 */
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  /* 表单元素公用样式 */
+  input[type="text"], select {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 15px;
+    border-radius: 50px; 
+    border: 1px solid transparent;
+    background: #ffffff;
+    color: #111;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  input[type="text"]:focus, select:focus {
+    border-color: #ccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  /* 给翻译按钮留出空间 */
+  #keyword {
+    padding-right: 90px;
+  }
+
+  /* 内嵌翻译按钮 */
+  .btn-translate {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 40px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-translate:hover {
+    background: #e0e0e0;
+    color: #111;
+  }
+  .btn-translate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* 下拉菜单定制 */
+  .select-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .select-wrapper::after {
+    content: '▼';
+    font-size: 10px;
+    color: #999;
+    position: absolute;
+    right: 24px;
+    top: 40%;
