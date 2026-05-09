@@ -32,7 +32,7 @@
 
   /* 标题排版 */
   h2 {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 800;
     color: #111;
     margin: 0 0 8px 0;
@@ -111,3 +111,131 @@
     position: absolute;
     right: 24px;
     top: 40%;
+    pointer-events: none;
+  }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  /* 搜索按钮 */
+  .btn-search {
+    width: 100%;
+    padding: 18px;
+    border-radius: 50px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+  .btn-search:hover {
+    background: #222;
+    transform: translateY(-2px);
+  }
+  .btn-search:active {
+    transform: translateY(0);
+  }
+
+  /* 提示文字 */
+  .tip {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🔍 搜图工具</h2>
+  <p class="subtitle">输入关键词，选择平台，一键搜索图片</p>
+
+  <!-- 输入框 + 翻译按钮 -->
+  <div class="input-wrapper">
+    <input type="text" id="keyword" placeholder="输入图片关键词（中文/英文）">
+    <button class="btn-translate" id="translateBtn">翻 译</button>
+  </div>
+
+  <!-- 图片平台选择 已加小红书 -->
+  <div class="select-wrapper">
+    <select id="platform">
+      <option value="xiaohongshu">小红书</option>
+      <option value="pexels">Pexels（免费可商用）</option>
+      <option value="pixabay">Pixabay（免费可商用）</option>
+      <option value="unsplash">Unsplash（高清无版权）</option>
+      <option value="bing">必应图片</option>
+      <option value="baidu">百度图片</option>
+    </select>
+  </div>
+
+  <!-- 搜索按钮 -->
+  <button class="btn-search" id="searchBtn">立即搜索图片</button>
+
+  <div class="tip">支持中文一键翻译 | 回车快速搜索</div>
+</div>
+
+<script>
+  // 翻译按钮
+  const translateBtn = document.getElementById('translateBtn');
+  const keywordInput = document.getElementById('keyword');
+  const searchBtn = document.getElementById('searchBtn');
+  const platformSelect = document.getElementById('platform');
+
+  translateBtn.addEventListener('click', function() {
+    let text = keywordInput.value.trim();
+    if (!text) {
+      alert('请先输入关键词');
+      return;
+    }
+
+    // 简易中译英词典
+    const dict = {
+      "猫": "cat", "狗": "dog", "风景": "landscape", "城市": "city",
+      "人物": "person", "美食": "food", "汽车": "car", "天空": "sky",
+      "海洋": "ocean", "森林": "forest", "山": "mountain", "花": "flower"
+    };
+
+    keywordInput.value = dict[text] || text;
+  });
+
+  // 各平台搜图地址 新增小红书
+  const searchUrls = {
+    xiaohongshu: "https://www.xiaohongshu.com/search_result?note_type=image&keyword=",
+    pexels: "https://www.pexels.com/search/",
+    pixabay: "https://pixabay.com/images/search/",
+    unsplash: "https://unsplash.com/s/photos/",
+    bing: "https://www.bing.com/images/search?q=",
+    baidu: "https://image.baidu.com/search/index?tn=baiduimage&word="
+  };
+
+  // 搜索执行函数
+  function doSearch() {
+    let keyword = keywordInput.value.trim();
+    if (!keyword) {
+      alert('请输入图片关键词');
+      return;
+    }
+    let platform = platformSelect.value;
+    let url = searchUrls[platform] + encodeURIComponent(keyword);
+    window.open(url, '_blank');
+  }
+
+  // 按钮点击搜索
+  searchBtn.addEventListener('click', doSearch);
+
+  // 输入框回车搜索
+  keywordInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  // 下拉选择框也支持回车搜索
+  platformSelect.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+</script>
+</body>
+</html>
