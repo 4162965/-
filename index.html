@@ -587,12 +587,23 @@ window.onload=()=>{
   renderHistory();
   renderEngines();
   const kw = document.getElementById("keyword");
+  
+  // 按回车键搜索
   kw.addEventListener("keydown",e=>{
     if(e.key==="Enter"){
       e.preventDefault();
       search();
     }
   });
+  
+  // 为翻译按钮也添加回车键支持（在输入框内按Ctrl+Enter）
+  kw.addEventListener("keydown",e=>{
+    if(e.key==="Enter" && e.ctrlKey){
+      e.preventDefault();
+      translateKeyword();
+    }
+  });
+  
   kw.focus();
   setTimeout(hideLoading,300);
 }
